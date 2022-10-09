@@ -8,10 +8,13 @@ wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appima
 mv ./appimagetool-x86_64.AppImage ./appimagetool
 chmod a+x ./appimagetool
 
-wget https:$(curl -s https://api.github.com/repos/supertuxkart/stk-code/releases/latest | grep browser_download_url | egrep '/.*/.*/.*linux-64bit.tar.xz' -o);
-
+for arch in "64bit" "x86_64"
+do
+wget https:$(curl -s https://api.github.com/repos/supertuxkart/stk-code/releases/latest | grep browser_download_url | egrep '/.*/.*/.*linux-'$arch'.tar.xz' -o)
 tar xf ./*.tar.xz;
-mv ./SuperTuxKart-*-linux-64bit ./$APP.AppDir;
+mv ./SuperTuxKart-*-linux-$arch ./$APP.AppDir
+done
+
 echo "[Desktop Entry]
 Name=SuperTuxKart
 Icon=supertuxkart
