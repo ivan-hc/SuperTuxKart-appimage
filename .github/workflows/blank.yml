@@ -21,9 +21,7 @@ jobs:
         mkdir dist
         VERSION=$(curl -s https://api.github.com/repos/supertuxkart/stk-code/releases/latest | grep tag_name | cut -c 16- | rev | cut -c 3- | rev)
         mv *AppImage dist/SuperTuxKart-$VERSION-x86_64.AppImage
-    - uses: gautamkrishnar/keepalive-workflow@v1
-      with:
-        gh_token: ${{ secrets.GH_TOKEN }}
+
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
