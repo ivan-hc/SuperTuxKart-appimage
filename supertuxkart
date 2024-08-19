@@ -4,8 +4,7 @@ APP=supertuxkart
 
 mkdir tmp;
 cd ./tmp;
-wget -q "$(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | sed 's/"/ /g; s/ /\n/g' | grep -o 'https.*continuous.*tool.*86_64.*mage$')" -O appimagetool
-mv ./appimagetool-x86_64.AppImage ./appimagetool
+wget -q https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
 chmod a+x ./appimagetool
 
 for arch in "64bit" "x86_64"
@@ -35,7 +34,7 @@ cp ./$APP.AppDir/data/supertuxkart_512.png ./$APP.AppDir;
 mv ./$APP.AppDir/supertuxkart_512.png ./$APP.AppDir/$APP.png
 mv ./$APP.AppDir/run_game.sh ./$APP.AppDir/AppRun;
 
-ARCH=x86_64 VERSION=$(./appimagetool -v | grep -o '[[:digit:]]*') ./appimagetool -s ./$APP.AppDir;
+ARCH=x86_64 ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 ./$APP.AppDir;
 
 cd ..;
 mv ./tmp/*mage ./$APP.AppImage;
