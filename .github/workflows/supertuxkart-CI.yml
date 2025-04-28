@@ -1,9 +1,11 @@
-name: Release STK Appimage
+name: SuperTuxKart Appimage
 concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
 
 on:
+  schedule:
+    - cron: "0 0 * * 1"
   workflow_dispatch:
 
 jobs:
@@ -14,28 +16,27 @@ jobs:
 
     - name: build
       run: |
-        sudo apt update && sudo apt install libfuse2 desktop-file-utils
-        wget https://raw.githubusercontent.com/ivan-hc/SuperTuxKart-appimage/main/supertuxkart
-        chmod a+x ./supertuxkart
-        sudo ./supertuxkart
+        sudo apt update && sudo apt install desktop-file-utils
+        chmod a+x ./supertuxkart.sh
+        ./supertuxkart.sh
         mkdir dist
-        VERSION=$(curl -s https://api.github.com/repos/supertuxkart/stk-code/releases/latest | grep tag_name | cut -c 16- | rev | cut -c 3- | rev)
-        mv *AppImage dist/SuperTuxKart-$VERSION-x86_64.AppImage
+        mv *AppImage* dist/
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4.4.0
       with:
-        name: SuperTuxKart-x86_64.AppImage
+        name: AppImage
         path: 'dist'
-        
+
   release:
       needs: [build]
+      permissions: write-all
       runs-on: ubuntu-latest
 
       steps:
         - uses: actions/download-artifact@v4.1.8
           with:
-            name: SuperTuxKart-x86_64.AppImage
+            name: AppImage
 
         - name: release
           uses: marvinpinto/action-automatic-releases@latest
@@ -45,5 +46,5 @@ jobs:
             prerelease: false
             draft: false
             files: |
-              *.AppImage
+              *.AppImage*
             repo_token: ${{ secrets.GITHUB_TOKEN }}
