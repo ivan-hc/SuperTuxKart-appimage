@@ -42,6 +42,7 @@ _appimage_basics() {
 	Type=Application
 	Categories=Game;ArcadeGame;
 	Keywords=tux;game;race;
+	StartupWMClass=supertuxkart
 	HEREDOC
 
 	# Icon
