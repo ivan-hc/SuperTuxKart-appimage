@@ -99,7 +99,3 @@ for arch in $architectures; do
 	cd ..
 	mv "$arch"/*AppImage* ./
 done
-
-if ! test -f ./*.AppImage; then
-	echo "No AppImage available."; exit 1
-fi
