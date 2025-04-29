@@ -15,14 +15,10 @@ for d in $dependencies; do
 	fi
 done
 
-_appimagetool() {
-	if ! command -v appimagetool 1>/dev/null; then
-		[ ! -f ./appimagetool ] && curl -#Lo appimagetool https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-"$ARCH".AppImage && chmod a+x ./appimagetool
-		./appimagetool "$@"
-	else
-		appimagetool "$@"
-	fi
-}
+if ! test -f ./appimagetool; then
+	wget -q https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-"$ARCH".AppImage -O appimagetool || exit 1
+	chmod a+x ./appimagetool
+fi
 
 DOWNLOAD_PAGE=$(curl -Ls https://api.github.com/repos/supertuxkart/stk-code/releases/latest)
 
@@ -78,7 +74,7 @@ _create_appimage() {
 	TAG="latest"
 	UPINFO="gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|$REPO|$TAG|*$arch.AppImage.zsync"
 
-	ARCH="$arch" _appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 \
+	ARCH="$arch" ./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 \
 		-u "$UPINFO" \
 		./"$APP".AppDir "$APPNAME"_"$VERSION"-"$arch".AppImage
 
