@@ -1,1 +1,1 @@
-https://github.com/ivan-hc/SuperTuxKart-appimage/releases/download/1.4/SuperTuxKart-1.4-x86_64.AppImage
+Tue Jul 15 01:20:00 UTC 2025
