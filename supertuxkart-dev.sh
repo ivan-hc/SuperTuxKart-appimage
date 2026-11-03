@@ -16,7 +16,7 @@ for d in $dependencies; do
 done
 
 if ! test -f ./appimagetool; then
-	wget -q https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-"$ARCH".AppImage -O appimagetool || exit 1
+	wget -q https://github.com/ivan-hc/appimagetool/releases/download/continuous/appimagetool-"$ARCH".AppImage -O appimagetool || exit 1
 	chmod a+x ./appimagetool
 fi
 
